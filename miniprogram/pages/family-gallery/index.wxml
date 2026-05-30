@@ -24,6 +24,13 @@
       </view>
       <view class="exhibit-label">{{item.unlocked ? item.title : '???'}}</view>
     </view>
+
+    <view class="exhibit-card upload-card" bindtap="startUpload">
+      <view class="locked-placeholder">
+        <text class="upload-icon">📷</text>
+        <text class="upload-text">上传老照片</text>
+      </view>
+    </view>
   </view>
 
   <view class="task-bar">
@@ -57,5 +64,22 @@
       mode="aspectFit"
     />
     <text class="fullscreen-title">{{fullscreenPhoto.title}}</text>
+  </view>
+
+  <view class="upload-mask" wx:if="{{showUpload}}" catchtap="cancelUpload">
+    <view class="upload-modal" catchtap="">
+      <text class="upload-modal-title">上传老照片</text>
+      <image wx:if="{{previewSrc}}" class="upload-preview" src="{{previewSrc}}" mode="aspectFill" />
+      <view wx:if="{{!previewSrc}}" class="upload-pick" bindtap="pickImage">
+        <text class="pick-icon">📁</text>
+        <text>点击选择照片</text>
+      </view>
+      <input class="upload-input" placeholder="照片名称，如：爷爷的军装照" value="{{uploadTitle}}" bindinput="onTitleInput" />
+      <input class="upload-input" placeholder="解锁关键词，如：军装" value="{{uploadKeyword}}" bindinput="onKeywordInput" />
+      <view class="upload-actions">
+        <view class="btn-secondary upload-cancel" bindtap="cancelUpload">取消</view>
+        <view class="btn-primary upload-confirm" bindtap="confirmUpload">上传</view>
+      </view>
+    </view>
   </view>
 </view>

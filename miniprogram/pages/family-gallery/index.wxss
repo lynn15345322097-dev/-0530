@@ -199,3 +199,114 @@
   font-weight: 700;
   color: #FFFFFF;
 }
+
+/* Upload Card */
+.upload-card {
+  border: 4rpx dashed #E8A840;
+}
+
+.upload-card:active {
+  transform: scale(0.96);
+  background: #FFF8E1;
+}
+
+.upload-icon {
+  font-size: 80rpx;
+}
+
+.upload-text {
+  font-size: 32rpx;
+  color: #E8A840;
+  font-weight: 600;
+}
+
+/* Upload Modal */
+.upload-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40rpx;
+}
+
+.upload-modal {
+  background: #FFFFFF;
+  border-radius: 32rpx;
+  padding: 48rpx 40rpx;
+  width: 100%;
+  max-width: 640rpx;
+}
+
+.upload-modal-title {
+  font-size: 44rpx;
+  font-weight: 700;
+  color: #2C1810;
+  display: block;
+  text-align: center;
+  margin-bottom: 32rpx;
+}
+
+.upload-preview {
+  width: 100%;
+  height: 360rpx;
+  border-radius: 20rpx;
+  margin-bottom: 24rpx;
+}
+
+.upload-pick {
+  width: 100%;
+  height: 200rpx;
+  background: #F5F0EB;
+  border-radius: 20rpx;
+  border: 3rpx dashed #D4C4B0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12rpx;
+  margin-bottom: 24rpx;
+  font-size: 36rpx;
+  color: #8B7355;
+}
+
+.pick-icon {
+  font-size: 72rpx;
+}
+
+.upload-input {
+  background: #F5F0EB;
+  border-radius: 16rpx;
+  padding: 24rpx 28rpx;
+  font-size: 36rpx;
+  margin-bottom: 20rpx;
+  height: 88rpx;
+  color: #2C1810;
+}
+
+.upload-actions {
+  display: flex;
+  gap: 24rpx;
+  margin-top: 28rpx;
+}
+
+.upload-cancel {
+  flex: 1;
+  min-height: 88rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.upload-confirm {
+  flex: 2;
+  min-height: 88rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

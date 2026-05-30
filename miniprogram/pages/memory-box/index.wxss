@@ -150,6 +150,33 @@
   background: #2E7D32;
 }
 
+/* Waveform */
+.wave-area {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 8rpx;
+  height: 100rpx;
+  margin-top: 24rpx;
+}
+
+.wave-bar {
+  width: 12rpx;
+  border-radius: 6rpx;
+  background: #E8A840;
+  transition: height 0.12s ease;
+}
+
+.wave-bar.active {
+  background: #C44536;
+  animation: waveJump 0.3s ease-in-out infinite alternate;
+}
+
+@keyframes waveJump {
+  from { transform: scaleY(0.5); }
+  to { transform: scaleY(1.2); }
+}
+
 /* Hint */
 .unlock-hint {
   margin-top: 24rpx;
@@ -222,5 +249,11 @@
 .record-label {
   font-size: 36rpx;
   color: #8B7355;
+  font-weight: 500;
+}
+
+.record-hint {
+  font-size: 32rpx;
+  color: #E8A840;
   font-weight: 500;
 }

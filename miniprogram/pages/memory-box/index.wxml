@@ -39,6 +39,11 @@
     />
   </view>
 
+  <!-- 实时音量波形 -->
+  <view class="wave-area" wx:if="{{isRecording}}">
+    <view wx:for="{{waveBars}}" wx:key="index" class="wave-bar active" style="height: {{item}}rpx; animation-delay: {{index * 0.05}}s;"></view>
+  </view>
+
   <view class="unlock-hint" wx:if="{{showHint}}">{{unlockHint}}</view>
 
   <view class="record-area">
@@ -51,6 +56,9 @@
     </view>
     <text class="record-label">
       {{photos[currentIndex].unlocked ? '已解锁' : (isRecording ? '正在倾听...' : '按住说话')}}
+    </text>
+    <text class="record-hint" wx:if="{{!photos[currentIndex].unlocked && !isRecording}}">
+      试试说 "{{photos[currentIndex].keyword}}"
     </text>
   </view>
 </view>

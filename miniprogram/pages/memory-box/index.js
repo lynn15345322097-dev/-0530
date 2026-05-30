@@ -9,6 +9,7 @@ Page({
     unlockHint: "",
     showHint: false,
     loading: true,
+    waveBars: [10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10],
   },
 
   onLoad() {
@@ -37,10 +38,27 @@ Page({
 
   initRecorder() {
     this.recorder = wx.getRecorderManager();
-    this.recorder.onStop(() => {
-      this.setData({ isRecording: false });
-      this.simulateRecognition();
+
+    // 实时音频帧 → 驱动波形动画
+    this.recorder.onFrameRecorded((res) => {
+      const data = new Uint8Array(res.frameBuffer);
+      let sum = 0;
+      const step = Math.max(1, Math.floor(data.length / 12));
+      const bars = [];
+      for (let i = 0; i < 12; i++) {
+        const val = data[i * step] || 128;
+        const level = Math.abs(val - 128) * 0.6;
+        bars.push(Math.max(8, Math.min(80, level)));
+      }
+      this.setData({ waveBars: bars });
     });
+
+    this.recorder.onStop((res) => {
+      this.setData({ isRecording: false, waveBars: [10,10,10,10,10,10,10,10,10,10,10,10] });
+      this.uploadRecording(res);
+      this.doRecognition(res);
+    });
+
     this.recorder.onError(() => {
       this.setData({ isRecording: false });
       wx.showToast({ title: "录音失败，请再试一次", icon: "none" });
@@ -49,6 +67,9 @@ Page({
 
   onTouchStart() {
     if (this.data.isUnlocking) return;
+    const photo = this.data.photos[this.data.currentIndex];
+    if (photo.unlocked) return;
+
     this.setData({ isRecording: true });
     this.recorder.start({
       duration: 10000,
@@ -56,6 +77,7 @@ Page({
       numberOfChannels: 1,
       encodeBitRate: 48000,
       format: "mp3",
+      frameSize: 10,
     });
   },
 
@@ -64,10 +86,53 @@ Page({
     this.recorder.stop();
   },
 
-  simulateRecognition() {
+  uploadRecording(res) {
+    const photo = this.data.photos[this.data.currentIndex];
+    const filePath = res.tempFilePath;
+    if (!filePath) return;
+
+    wx.cloud.uploadFile({
+      cloudPath: `voices/${photo.id}_${Date.now()}.mp3`,
+      filePath: filePath,
+    }).catch(() => {});
+  },
+
+  doRecognition(res) {
     const photo = this.data.photos[this.data.currentIndex];
     if (photo.unlocked) return;
 
+    // 将录音文件发送到云函数做语音识别
+    if (res.tempFilePath) {
+      wx.cloud.callFunction({
+        name: "quickstartFunctions",
+        data: {
+          type: "speechToText",
+          filePath: res.tempFilePath,
+          keyword: photo.keyword,
+        },
+      }).then((result) => {
+        if (result.result && result.result.matched) {
+          this.unlockPhoto();
+        } else {
+          this.setData({
+            unlockHint: result.result.transcript
+              ? `您说"${result.result.transcript}"，再试试吧~`
+              : "再试试哦，说说您印象中的画面吧~",
+            showHint: true,
+          });
+          setTimeout(() => this.setData({ showHint: false }), 2500);
+        }
+      }).catch(() => {
+        // 云端识别不可用时本地模拟
+        this.simulateLocal();
+      });
+    } else {
+      this.simulateLocal();
+    }
+  },
+
+  simulateLocal() {
+    const photo = this.data.photos[this.data.currentIndex];
     const hit = Math.random() < 0.4;
     if (hit) {
       this.unlockPhoto();
