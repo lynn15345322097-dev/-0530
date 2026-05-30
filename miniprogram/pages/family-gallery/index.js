@@ -15,8 +15,9 @@ Page({
   },
 
   loadData() {
-    const photos = app.globalData.gameState.photos || [];
-    const tasks = app.globalData.gameState.tasks || [];
+    const gs = app.globalData.gameState;
+    const photos = gs.photos || [];
+    const tasks = gs.tasks || [];
     const unlockedCount = photos.filter((p) => p.unlocked).length;
 
     this.setData({
@@ -52,9 +53,7 @@ Page({
       return t;
     });
 
-    app.globalData.gameState.tasks = tasks;
-    app.saveGameState();
-
+    app.saveTasks(tasks);
     this.setData({ tasks });
   },
 });

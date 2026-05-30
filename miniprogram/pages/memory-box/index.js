@@ -8,25 +8,36 @@ Page({
     isUnlocking: false,
     unlockHint: "",
     showHint: false,
+    loading: true,
   },
 
   onLoad() {
-    this.loadPhotos();
     this.initRecorder();
+    this.waitForReady();
   },
 
   onShow() {
-    this.loadPhotos();
+    if (app.globalData.gameState.ready) {
+      this.loadPhotos();
+    }
+  },
+
+  waitForReady() {
+    if (app.globalData.gameState.ready) {
+      this.loadPhotos();
+      return;
+    }
+    setTimeout(() => this.waitForReady(), 300);
   },
 
   loadPhotos() {
     const photos = app.globalData.gameState.photos;
-    this.setData({ photos, currentIndex: this.data.currentIndex });
+    this.setData({ photos, loading: photos.length === 0 });
   },
 
   initRecorder() {
     this.recorder = wx.getRecorderManager();
-    this.recorder.onStop((res) => {
+    this.recorder.onStop(() => {
       this.setData({ isRecording: false });
       this.simulateRecognition();
     });
@@ -69,19 +80,18 @@ Page({
     }
   },
 
-  unlockPhoto() {
+  async unlockPhoto() {
     const photos = this.data.photos;
     const photo = photos[this.data.currentIndex];
 
     this.setData({ isUnlocking: true });
 
-    setTimeout(() => {
+    setTimeout(async () => {
       photo.unlocked = true;
-      app.globalData.gameState.photos = photos;
-      app.saveGameState();
+      await app.saveUnlockedPhoto(photo.id);
 
       this.setData({
-        photos,
+        photos: app.globalData.gameState.photos,
         isUnlocking: false,
         unlockHint: "太棒了！记忆被唤醒啦~",
         showHint: true,
