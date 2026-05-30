@@ -1,0 +1,70 @@
+/** 适老化全局样式 **/
+
+page {
+  background: #FFF8F0;
+  font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  font-size: 36rpx;
+  color: #2C1810;
+  line-height: 1.6;
+}
+
+button {
+  background: initial;
+  font-size: 40rpx;
+}
+
+button:focus {
+  outline: 0;
+}
+
+button::after {
+  border: none;
+}
+
+/* 通用按钮 - 大触控区域 */
+.btn-primary {
+  background: #C44536;
+  color: #FFFFFF;
+  border-radius: 16rpx;
+  font-size: 40rpx;
+  font-weight: 600;
+  padding: 24rpx 48rpx;
+  min-height: 88rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+}
+
+.btn-primary:active {
+  background: #A8382C;
+  transform: scale(0.97);
+}
+
+.btn-secondary {
+  background: #E8A840;
+  color: #FFFFFF;
+  border-radius: 16rpx;
+  font-size: 40rpx;
+  font-weight: 600;
+  padding: 24rpx 48rpx;
+  min-height: 88rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+}
+
+.btn-secondary:active {
+  background: #C88E30;
+  transform: scale(0.97);
+}
+
+/* 卡片通用样式 */
+.card {
+  background: #FFFFFF;
+  border-radius: 24rpx;
+  box-shadow: 0 4rpx 24rpx rgba(0, 0, 0, 0.08);
+  padding: 40rpx;
+  margin: 24rpx 32rpx;
+}

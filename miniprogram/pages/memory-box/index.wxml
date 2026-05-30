@@ -1,0 +1,56 @@
+<view class="page">
+  <view class="header">
+    <text class="header-title">记忆开箱</text>
+    <text class="header-sub">按住说话，唤醒老照片</text>
+  </view>
+
+  <view class="photo-stage"
+    bindtouchstart="onTouchStartSwipe"
+    bindtouchend="onTouchEndSwipe"
+  >
+    <view class="nav-btn nav-left" bindtap="prevPhoto" wx:if="{{currentIndex > 0}}">
+      <text>&lt;</text>
+    </view>
+
+    <view class="photo-card {{isUnlocking ? 'unlocking' : ''}}">
+      <image
+        class="photo-img {{photos[currentIndex].unlocked ? 'clear' : 'blurred'}}"
+        src="{{photos[currentIndex].src}}"
+        mode="aspectFill"
+      />
+      <view class="photo-overlay" wx:if="{{!photos[currentIndex].unlocked && !isUnlocking}}">
+        <text class="overlay-icon">📦</text>
+        <text class="overlay-text">按住下方按钮</text>
+        <text class="overlay-text">用声音唤醒记忆</text>
+      </view>
+      <view class="photo-label">{{photos[currentIndex].title}}</view>
+    </view>
+
+    <view class="nav-btn nav-right" bindtap="nextPhoto" wx:if="{{currentIndex < photos.length - 1}}">
+      <text>&gt;</text>
+    </view>
+  </view>
+
+  <view class="dots">
+    <view
+      wx:for="{{photos}}"
+      wx:key="id"
+      class="dot {{index === currentIndex ? 'active' : ''}} {{item.unlocked ? 'unlocked-dot' : ''}}"
+    />
+  </view>
+
+  <view class="unlock-hint" wx:if="{{showHint}}">{{unlockHint}}</view>
+
+  <view class="record-area">
+    <view
+      class="record-btn {{isRecording ? 'recording' : ''}} {{isUnlocking ? 'disabled' : ''}} {{photos[currentIndex].unlocked ? 'unlocked-state' : ''}}"
+      bindtouchstart="onTouchStart"
+      bindtouchend="onTouchEnd"
+    >
+      <text class="record-icon">{{photos[currentIndex].unlocked ? '🔓' : (isRecording ? '🔴' : '🎤')}}</text>
+    </view>
+    <text class="record-label">
+      {{photos[currentIndex].unlocked ? '已解锁' : (isRecording ? '正在倾听...' : '按住说话')}}
+    </text>
+  </view>
+</view>

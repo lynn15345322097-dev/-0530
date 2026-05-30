@@ -1,0 +1,45 @@
+{
+  "pages": [
+    "pages/memory-box/index",
+    "pages/life-choice/index",
+    "pages/family-gallery/index",
+    "pages/index/index",
+    "pages/example/index"
+  ],
+  "window": {
+    "backgroundColor": "#FFF8F0",
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#FFF8F0",
+    "navigationBarTitleText": "记忆开箱",
+    "navigationBarTextStyle": "black"
+  },
+  "tabBar": {
+    "color": "#8B7355",
+    "selectedColor": "#C44536",
+    "backgroundColor": "#FFF8F0",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/memory-box/index",
+        "text": "记忆开箱",
+        "iconPath": "images/icons/box.png",
+        "selectedIconPath": "images/icons/box-active.png"
+      },
+      {
+        "pagePath": "pages/life-choice/index",
+        "text": "人生抉择",
+        "iconPath": "images/icons/choice.png",
+        "selectedIconPath": "images/icons/choice-active.png"
+      },
+      {
+        "pagePath": "pages/family-gallery/index",
+        "text": "家族展厅",
+        "iconPath": "images/icons/gallery.png",
+        "selectedIconPath": "images/icons/gallery-active.png"
+      }
+    ]
+  },
+  "sitemapLocation": "sitemap.json",
+  "style": "v2",
+  "lazyCodeLoading": "requiredComponents"
+}

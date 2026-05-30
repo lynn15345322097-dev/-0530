@@ -1,0 +1,61 @@
+<view class="page">
+  <view class="header">
+    <text class="header-title">家族展厅</text>
+    <text class="header-sub">已解锁 {{unlockedCount}}/{{totalCount}} 件展品</text>
+  </view>
+
+  <view class="gallery-grid">
+    <view
+      wx:for="{{exhibits}}"
+      wx:key="id"
+      class="exhibit-card {{item.unlocked ? 'unlocked' : 'locked'}}"
+      data-id="{{item.id}}"
+      bindtap="openFullscreen"
+    >
+      <image
+        wx:if="{{item.unlocked}}"
+        class="exhibit-img"
+        src="{{item.src}}"
+        mode="aspectFill"
+      />
+      <view wx:if="{{!item.unlocked}}" class="locked-placeholder">
+        <text class="locked-icon">❓</text>
+        <text class="locked-text">未解锁</text>
+      </view>
+      <view class="exhibit-label">{{item.unlocked ? item.title : '???'}}</view>
+    </view>
+  </view>
+
+  <view class="task-bar">
+    <view class="task-header">
+      <text class="task-title">🔍 家族侦探任务栏</text>
+    </view>
+    <view
+      wx:for="{{tasks}}"
+      wx:key="id"
+      class="task-item"
+      data-id="{{item.id}}"
+      bindtap="toggleTask"
+    >
+      <view class="task-check {{item.completed ? 'checked' : ''}}">
+        <text wx:if="{{item.completed}}">✓</text>
+      </view>
+      <view class="task-body">
+        <text class="task-label {{item.completed ? 'done' : ''}}">{{item.title}}</text>
+        <text class="task-reward">奖励：{{item.reward}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="fullscreen-mask" wx:if="{{showFullscreen}}" bindtap="closeFullscreen">
+    <view class="fullscreen-close" bindtap="closeFullscreen">
+      <text>✕</text>
+    </view>
+    <image
+      class="fullscreen-img"
+      src="{{fullscreenPhoto.src}}"
+      mode="aspectFit"
+    />
+    <text class="fullscreen-title">{{fullscreenPhoto.title}}</text>
+  </view>
+</view>

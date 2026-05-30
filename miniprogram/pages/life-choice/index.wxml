@@ -1,0 +1,59 @@
+<view class="page">
+  <view class="header">
+    <text class="header-title">人生抉择</text>
+    <text class="header-sub">猜猜爷爷当年选啥？</text>
+  </view>
+
+  <view wx:if="{{!allDone}}" class="main-content">
+    <view class="progress-bar">
+      <view class="progress-fill" style="width: {{completedIds.length / totalCount * 100}}%"></view>
+    </view>
+    <text class="progress-text">{{completedIds.length}}/{{totalCount}} 个人生故事</text>
+
+    <view class="timeline">
+      <view class="timeline-line"></view>
+
+      <view class="scenario-card {{showResult ? 'revealed' : ''}}">
+        <view class="year-badge">{{scenarios[currentIndex].year}}</view>
+        <text class="scenario-title">{{scenarios[currentIndex].title}}</text>
+        <text class="scenario-desc">{{scenarios[currentIndex].description}}</text>
+
+        <view class="options" wx:if="{{!showResult}}">
+          <view
+            class="option-btn option-a"
+            data-option="A"
+            bindtap="selectOption"
+          >
+            <text class="option-label">A</text>
+            <text class="option-text">{{scenarios[currentIndex].optionA}}</text>
+          </view>
+          <view
+            class="option-btn option-b"
+            data-option="B"
+            bindtap="selectOption"
+          >
+            <text class="option-label">B</text>
+            <text class="option-text">{{scenarios[currentIndex].optionB}}</text>
+          </view>
+        </view>
+
+        <view class="result-box" wx:if="{{showResult}}">
+          <view class="result-badge {{selectedOption === scenarios[currentIndex].answer ? 'correct' : 'wrong'}}">
+            <text>爷爷选了 {{scenarios[currentIndex].answer === 'A' ? scenarios[currentIndex].optionA : scenarios[currentIndex].optionB}}</text>
+          </view>
+          <text class="result-text">{{scenarios[currentIndex].result}}</text>
+          <view class="btn-primary next-btn" bindtap="nextScenario">
+            {{completedIds.length + 1 >= totalCount ? '看看总结' : '下一个故事'}}
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view wx:if="{{allDone}}" class="all-done">
+    <text class="done-icon">🎉</text>
+    <text class="done-title">全部故事解锁完毕！</text>
+    <text class="done-desc">爷爷的一生，就是一部奋斗史。这些故事也属于你的家族记忆。</text>
+    <view class="btn-secondary reset-btn" bindtap="resetAll">再来一次</view>
+  </view>
+</view>
